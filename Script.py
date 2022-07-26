@@ -2,7 +2,7 @@ import string
 import random
 
 # settings
-password_length = int(input('What is the length you want the password to be? (A digit): '))
+password_length = int(input("What is the length you want the password to be? (A digit): "))
 password_numbers = input("Do you want to include numbers in the password? (yes/no): ")
 capitol_letters = input("Do you want to include capitol letters in the password? (yes/no): ")
 
