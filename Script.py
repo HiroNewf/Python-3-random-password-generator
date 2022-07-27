@@ -7,7 +7,7 @@ import os
 save_password = input("Do you want this password to be saved to your computer in a txt file? (yes/no): ") #note that this is not a safe way to store passwords at all. Passwords should NOT be stored in laintext on your desktop, but this is mainly just a script for messing around and if I ever end up actually wanting to use it for storage I will come up with a better solution to storage and security.
 
 if save_password == "yes":
-    site_name = input("What is the name of the site this password if for? (Or just the name you would like to reference this buy password by in the future): ")
+    site_name = input("What is the name of the site this password is for? (Or just the name you would like to reference this buy password by in the future): ")
     
 password_length = int(input("What is the length you want the password to be? (A digit): "))
 password_numbers = input("Do you want to include numbers in the password? (yes/no): ")
