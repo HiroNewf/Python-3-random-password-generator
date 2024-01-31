@@ -2,53 +2,39 @@ import string
 import random
 import os
 
-# settings
+def generate_password(length, use_numbers, use_capital_letters, use_special_characters):
+    # Define character sets based on user choices
+    characters = string.ascii_letters
+    if use_numbers:
+        characters += string.digits
+    if use_special_characters:
+        characters += '!@#$%^&*()_'
+    
+    # Generate and return the password
+    return ''.join(random.choice(characters) for _ in range(length))
 
-save_password = input("Do you want this password to be saved to your computer in a txt file? (yes/no): ") #note that this is not a safe way to store passwords at all. Passwords should NOT be stored in laintext on your desktop, but this is mainly just a script for messing around and if I ever end up actually wanting to use it for storage I will come up with a better solution to storage and security.
+# Get user preferences
+save_password = input("Do you want this password to be saved to your computer in a txt file? (yes/no): ")
 
-if save_password == "yes":
-    site_name = input("What is the name of the site this password is for? (Or just the name you would like to reference this buy password by in the future): ")
+if save_password.lower() == "yes":
+    site_name = input("What is the name of the site this password is for? (Or just the name you would like to reference this password by in the future): ")
     
 password_length = int(input("What is the length you want the password to be? (A digit): "))
-password_numbers = input("Do you want to include numbers in the password? (yes/no): ")
-capitol_letters = input("Do you want to include capitol letters in the password? (yes/no): ")
-special_characters = input("Do you want to include special characters in the password? (yes/no): ")
+password_numbers = input("Do you want to include numbers in the password? (yes/no): ").lower() == "yes"
+capitol_letters = input("Do you want to include capital letters in the password? (yes/no): ").lower() == "yes"
+special_characters = input("Do you want to include special characters in the password? (yes/no): ").lower() == "yes"
 
-if not os.path.exists('Passwords'):
+if save_password.lower() == "yes" and not os.path.exists('Passwords'):
     os.mkdir('Passwords')
 
-# All of the possibilities (this was very annoying to make but I guess it could be worse)
-if password_numbers == "yes" and capitol_letters == "yes" and special_characters == "yes":
-    the_password = ''.join(random.choices(string.ascii_letters + string.digits + '!@#$%^&*()_', k=password_length))
-    print("Your password is: " + str(the_password))
+# Generate and display the password
+the_password = generate_password(password_length, password_numbers, capitol_letters, special_characters)
 
-elif password_numbers == "yes" and capitol_letters == "yes" and special_characters == "no":
-    the_password = ''.join(random.choices(string.ascii_letters + string.digits, k=password_length))
-    print("Your password is: " + str(the_password))
-    
-elif password_numbers == "no" and capitol_letters == "yes" and special_characters == "yes":
-    the_password = ''.join(random.choices(string.ascii_letters + '!@#$%^&*()_', k=password_length))
-    print("Your password is: " + str(the_password))
-
-elif password_numbers == "no" and capitol_letters == "yes" and special_characters == "no":
-    the_password = ''.join(random.choices(string.ascii_letters, k=password_length))
-    print("Your password is: " + str(the_password))
-
-elif password_numbers == "yes" and capitol_letters == "no" and special_characters == "yes":
-    the_password = ''.join(random.choices(string.digits + string.ascii_lowercase + '!@#$%^&*()_', k=password_length))
-    print("Your password is: " + str(the_password))
-
-elif password_numbers == "yes" and capitol_letters == "no" and special_characters == "no":
-    the_password = ''.join(random.choices(string.digits, + string.ascii_lowercase, k=password_length))
-    print("Your password is: " + str(the_password))
-
-elif password_numbers == "no" and capitol_letters == "no" and special_characters == "yes":
-    the_password = ''.join(random.choices('!@#$%^&*()_', k=password_length))
-    print("Your password is: " + str(the_password))
-
-elif password_numbers == "no" and capitol_letters == "no" and special_characters == "no":
-    the_password = ''.join(random.choices(k=password_length))
-    print("Your password is: " + str(the_password))
-
+if save_password.lower() == "yes":
+    # Save the password to a file
+    file_path = os.path.join('Passwords', f'{site_name}_password.txt')
+    with open(file_path, 'w') as file:
+        file.write(the_password)
+    print(f"Your password has been saved to {file_path}")
 else:
-    print('You have not entered valid responses, please try again')
+    print("Your password is: " + the_password)
